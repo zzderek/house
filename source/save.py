@@ -91,7 +91,7 @@ class saveData():
 
     # 保存到mysql
     def _save_mysql(self, webName, houseName, villageName, houseNote, houseTotlePrice, houseUnitPrice, houseLink,
-                    houseImg, followNum):
+                    houseImg, followNum,area):
         import pymysql
         # 用于忽略表已存在的警告
         import warnings
@@ -118,23 +118,30 @@ class saveData():
             houseLink varchar(255),
             houseImg varchar(255),
             followNum varchar(255),
+            area varchar(255),
             primary key(Id)
         )
         ENGINE=InnoDB DEFAULT CHARSET=utf8;""" % (tablename)
         cursor.execute(create_table_sql)
+        print(create_table_sql)
 
-        insert_sql = """insert into %s (webName, houseName, villageName, houseNote, houseTotlePrice, houseUnitPrice, houseLink, houseImg, followNum) values """ % (
+        selectSql = """select count(1) from %s """ % tablename
+        print(selectSql)
+        cursor.execute(selectSql)
+
+        insert_sql = """insert into %s (webName, houseName, villageName, houseNote, houseTotlePrice, houseUnitPrice, houseLink, houseImg, followNum, area) values """ % (
             tablename)
         for i in range(0, len(houseName)):
             if i == 0:
-                insert_sql += """('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')""" % (
+                insert_sql += """('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')""" % (
                     webName, houseName[i], villageName[i], houseNote[i], houseTotlePrice[i], houseUnitPrice[i],
-                    houseLink[i], houseImg[i], followNum[i])
+                    houseLink[i], houseImg[i], followNum[i],area)
             else:
-                insert_sql += """,('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')""" % (
+                insert_sql += """,('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')""" % (
                     webName, houseName[i], villageName[i], houseNote[i], houseTotlePrice[i], houseUnitPrice[i],
-                    houseLink[i], houseImg[i], followNum[i])
+                    houseLink[i], houseImg[i], followNum[i],area)
         insert_sql += """;"""
+        print(insert_sql)
         saved_rows = 0
         if len(houseName) > 0:
             try:
@@ -159,16 +166,16 @@ class saveData():
             self._save_leancloud(*args)
 
     # 贝壳找房
-    def beike_save(self, html):
+    def beike_save(self, html,area):
         beike = BeikeParser()
         houseName, villageName, houseNote, houseTotlePrice, houseUnitPrice, houseLink, houseImg, followNum = beike.feed(html)
-        self._saveData('贝壳', houseName, villageName, houseNote, houseTotlePrice, houseUnitPrice, houseLink, houseImg, followNum)
+        self._saveData('贝壳', houseName, villageName, houseNote, houseTotlePrice, houseUnitPrice, houseLink, houseImg, followNum,area)
 
     # 链家
-    def lianjia_save(self, html):
+    def lianjia_save(self, html,area):
         lianjia = LianjiaParser()
         houseName, villageName, houseNote, houseTotlePrice, houseUnitPrice, houseLink, houseImg, followNum = lianjia.feed(html)
-        self._saveData('链家', houseName, villageName, houseNote, houseTotlePrice, houseUnitPrice, houseLink, houseImg, followNum)
+        self._saveData('链家', houseName, villageName, houseNote, houseTotlePrice, houseUnitPrice, houseLink, houseImg, followNum,area)
 
     # 58同城
     def tongcheng_save(self, html):
