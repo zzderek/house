@@ -123,11 +123,11 @@ class saveData():
         )
         ENGINE=InnoDB DEFAULT CHARSET=utf8;""" % (tablename)
         cursor.execute(create_table_sql)
-        print(create_table_sql)
+        # print(create_table_sql)
 
-        selectSql = """select count(1) from %s """ % tablename
-        print(selectSql)
-        cursor.execute(selectSql)
+        # selectSql = """select count(1) from %s """ % tablename
+        # print(selectSql)
+        # cursor.execute(selectSql)
 
         insert_sql = """insert into %s (webName, houseName, villageName, houseNote, houseTotlePrice, houseUnitPrice, houseLink, houseImg, followNum, area) values """ % (
             tablename)
@@ -141,7 +141,7 @@ class saveData():
                     webName, houseName[i], villageName[i], houseNote[i], houseTotlePrice[i], houseUnitPrice[i],
                     houseLink[i], houseImg[i], followNum[i],area)
         insert_sql += """;"""
-        print(insert_sql)
+        # print(insert_sql)
         saved_rows = 0
         if len(houseName) > 0:
             try:
