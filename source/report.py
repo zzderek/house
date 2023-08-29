@@ -60,6 +60,7 @@ class reportData():
                 <th>小区名</th>
                 <th>房屋链接</th>
                 <th>来源网站</th>
+                <th>地区</th>
             </tr>
             </thead>
             <tbody>''' % (day, id)
@@ -81,6 +82,7 @@ class reportData():
                 <th>小区名</th>
                 <th>房屋链接</th>
                 <th>来源网站</th>
+                <th>地区</th>
             </tr>
             </tfoot>
         </table>'''
@@ -101,7 +103,8 @@ class reportData():
                 <td>%s</td>
                 <td><a href="%s" target="_blank">%s</a></td>
                 <td>%s</td>
-            </tr>'''% (row.sign, row.houseName, row.houseNote, row.houseTotlePrice, row.old_houseTotlePrice, row.houseUnitPrice, row.followNum, row.villageName, row.houseLink if row.houseLink[:4]=="http" else "http://" + row.houseLink, row.houseLink, row.webName)
+                <td>%s</td>
+            </tr>'''% (row.sign, row.houseName, row.houseNote, row.houseTotlePrice, row.old_houseTotlePrice, row.houseUnitPrice, row.followNum, row.villageName, row.houseLink if row.houseLink[:4]=="http" else "http://" + row.houseLink, row.houseLink, row.webName,row.area)
         return result
 
     # 生成报告文件
